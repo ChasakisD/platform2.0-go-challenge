@@ -1,31 +1,64 @@
 # GlobalWebIndex Engineering Challenge
 
+## TL;DR
+```
+//Update .env file and execute:
+//NOTE: Normally .env would not been pushed to the repo
+docker-compose up -d --build
+```
+
+or
+
+```
+//Update config.yml or .env file and execute:
+make api-build
+make api-run
+```
+
 ## Introduction
 
-This challenge is designed to give you the opportunity to demonstrate your abilities as a software engineer and specifically your knowledge of the Go language.
+The main purpose of this challenge is to create some basic endpoints for the user and its assets. In order to achieve that the following endpoints have been created:
 
-On the surface the challenge is trivial to solve, however you should choose to add features or capabilities which you feel demonstrate your skills and knowledge the best. For example, you could choose to optimise for performance and concurrency, you could choose to add a robust security layer or ensure your application is highly available. Or all of these.
+#### User
+```{POST}``` /auth/login: Authenticate  
+```{POST}``` /auth/refresh: Refresh token  
+```{POST}``` /auth/register: Register  
+#### Asset
+```{GET}``` /asset: Get all assets  
+```{GET}``` /asset/favorite: Get all user's favorite assets  
+#### Audience
+```{GET}``` /audience: Get all audiences  
+```{POST}``` /audience: Create an audience   
+```{GET}``` /audience/{audienceId}: Get an audience  
+```{PUT}``` /audience/{audienceId}: Updates an audience   
+```{DELETE}``` /audience/{audienceId}: Deletes an audience  
+```{GET}``` /audience/favorite: Get all user's favorite audiences  
+```{POST}``` /audience/{audienceId}/favorite: Make an audience favorite  
+```{DELETE}``` /audience/{audienceId}/favorite: Remove an audience from favorites  
+#### Chart
+```{GET}``` /chart: Get all charts  
+```{POST}``` /chart: Create an chart   
+```{GET}``` /chart/{chartId}: Get an chart  
+```{PUT}``` /chart/{chartId}: Updates an chart   
+```{DELETE}``` /chart/{chartId}: Deletes an chart  
+```{GET}``` /chart/favorite: Get all user's favorite charts  
+```{POST}``` /chart/{chartId}/favorite: Make an chart favorite  
+```{DELETE}``` /chart/{chartId}/favorite: Remove an chart from favorites  
+#### Chart
+```{GET}``` /insight: Get all insights  
+```{POST}``` /insight: Create an insight   
+```{GET}``` /insight/{insightId}: Get an insight  
+```{PUT}``` /insight/{insightId}: Updates an insight   
+```{DELETE}``` /insight/{insightId}: Deletes an insight  
+```{GET}``` /insight/favorite: Get all user's favorite insights  
+```{POST}``` /insight/{insightId}/favorite: Make an insight favorite  
+```{DELETE}``` /insight/{insightId}/favorite: Remove an insight from favorites  
 
-Of course, usually we would choose to solve any given requirement with the simplest possible solution, however that is not the spirit of this challenge.
+**Navigate to {ip}:{port}/swagger/index.html for more**
 
-## Challenge
-
-Let's say that in GWI platform all of our users have access to a huge list of assets. We want our users to have a peronal list of favourites, meaning assets that favourite or “star” so that they have them in their frontpage dashboard for quick access. An asset can be one the following
-* Chart (that has a small title, axes titles and data)
-* Insight (a small piece of text that provides some insight into a topic, e.g. "40% of millenials spend more than 3hours on social media daily")
-* Audience (which is a series of characteristics, for that exercise lets focus on gender (Male, Female), birth country, age groups, hours spent daily on social media, number of purchases last month)
-e.g. Males from 24-35 that spent more than 3 hours on social media daily.
-
-Build a web server which has some endpoint to receive a user id and return a list of all the user’s favourites. Also we want endpoints that would add an asset to favourites, remove it, or edit its description. Assets obviously can share some common attributes (like their description) but they also have completely different structure and data. It’s up to you to decide the structure and we are not looking for something overly complex here (especially for the cases of audiences). There is no need to have/deploy/create an actual database although we would like to discuss about storage options and data representations.
-
-Note that users have no limit on how many assets they want on their favourites so your service will need to provide a reasonable response time.
-
-A working server application with functional API is required, along with a clear readme.md. Useful and passing tests would be also be viewed favourably 
-
-It is appreciated, though not required, if a Dockerfile is included.
-
-## Submission
-
-Just a make a PR to the current repo!
-
-Good luck, potential colleague! 
+## Libraries being used
+* [chi](https://github.com/go-chi/chi) - HTTP Router & Auth
+* [gorm](https://github.com/go-gorm/gorm) - ORM
+* [uuid](https://github.com/google/uuid) - For generating UUIDs
+* [envconfig](https://github.com/kelseyhightower/envconfig) - For reading environmental variables
+* [swag](https://github.com/swaggo/swag) - For generating swagger docs

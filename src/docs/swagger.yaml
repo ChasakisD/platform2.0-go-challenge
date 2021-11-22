@@ -1,0 +1,1078 @@
+basePath: /
+definitions:
+  command.AuthCommand:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  command.RefreshCommand:
+    properties:
+      accessToken:
+        type: string
+      refreshToken:
+        type: string
+    type: object
+  command.RegisterCommand:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  response.AssetResponse:
+    properties:
+      audiences:
+        $ref: '#/definitions/response.AudiencePageResponse'
+      charts:
+        $ref: '#/definitions/response.ChartPageResponse'
+      insights:
+        $ref: '#/definitions/response.InsightPageResponse'
+    type: object
+  response.AudienceCommand:
+    properties:
+      ageGroupMax:
+        type: integer
+      ageGroupMin:
+        type: integer
+      birthCountry:
+        type: string
+      description:
+        type: string
+      gender:
+        type: string
+      statType:
+        $ref: '#/definitions/response.AudienceStatTypeCommand'
+      statTypeValue:
+        type: number
+    type: object
+  response.AudiencePageResponse:
+    properties:
+      page:
+        type: integer
+      results:
+        items:
+          $ref: '#/definitions/response.AudienceResponse'
+        type: array
+    type: object
+  response.AudienceResponse:
+    properties:
+      ageGroupMax:
+        type: integer
+      ageGroupMin:
+        type: integer
+      assetId:
+        type: string
+      birthCountry:
+        type: string
+      description:
+        type: string
+      descriptionFormatted:
+        type: string
+      gender:
+        type: string
+      id:
+        type: string
+      statType:
+        $ref: '#/definitions/response.AudienceStatTypeResponse'
+      statTypeValue:
+        type: number
+    type: object
+  response.AudienceStatTypeCommand:
+    properties:
+      title:
+        type: string
+      titleFormatted:
+        type: string
+    type: object
+  response.AudienceStatTypeResponse:
+    properties:
+      id:
+        type: string
+      title:
+        type: string
+      titleFormatted:
+        type: string
+    type: object
+  response.AuthResponse:
+    properties:
+      accessToken:
+        type: string
+      accessTokenExpiresAt:
+        type: string
+      refreshToken:
+        type: string
+      refreshTokenExpiresAt:
+        type: string
+    type: object
+  response.ChartCommand:
+    properties:
+      description:
+        type: string
+      points:
+        items:
+          $ref: '#/definitions/response.ChartPointCommand'
+        type: array
+      xAxes:
+        type: string
+      yAxes:
+        type: string
+    type: object
+  response.ChartPageResponse:
+    properties:
+      page:
+        type: integer
+      results:
+        items:
+          $ref: '#/definitions/response.ChartResponse'
+        type: array
+    type: object
+  response.ChartPointCommand:
+    properties:
+      xValue:
+        type: number
+      yValue:
+        type: number
+    type: object
+  response.ChartPointResponse:
+    properties:
+      id:
+        type: string
+      xValue:
+        type: number
+      yValue:
+        type: number
+    type: object
+  response.ChartResponse:
+    properties:
+      assetId:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      points:
+        items:
+          $ref: '#/definitions/response.ChartPointResponse'
+        type: array
+      xAxes:
+        type: string
+      yAxes:
+        type: string
+    type: object
+  response.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  response.InsightCommand:
+    properties:
+      description:
+        type: string
+    type: object
+  response.InsightPageResponse:
+    properties:
+      page:
+        type: integer
+      results:
+        items:
+          $ref: '#/definitions/response.InsightResponse'
+        type: array
+    type: object
+  response.InsightResponse:
+    properties:
+      assetId:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+    type: object
+info:
+  contact:
+    email: chasakisd@gmail.com
+    name: Dionysis Chasakis
+  description: This is a programming assignment for GWI Go Backend position
+  title: GWI Go Challenge API
+  version: "1.0"
+paths:
+  /asset:
+    get:
+      consumes:
+      - application/json
+      description: Returns all the application assets
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.AssetResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get assets
+      tags:
+      - Asset
+  /asset/favorite:
+    get:
+      consumes:
+      - application/json
+      description: Get user's favorite assets
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.AssetResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get favorite assets
+      tags:
+      - Asset
+  /audience:
+    get:
+      consumes:
+      - application/json
+      description: Returns all the application audiences
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.AudiencePageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get audiences
+      tags:
+      - Audience
+    post:
+      consumes:
+      - application/json
+      description: Creates an audience
+      parameters:
+      - description: audienceId
+        in: body
+        name: command
+        schema:
+          $ref: '#/definitions/response.AudienceCommand'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create audience
+      tags:
+      - Audience
+  /audience/{audienceId}:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes an audience
+      parameters:
+      - description: audienceId
+        in: path
+        name: audienceId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete audience
+      tags:
+      - Audience
+    get:
+      consumes:
+      - application/json
+      description: Returns audience by id
+      parameters:
+      - description: audienceId
+        in: path
+        name: audienceId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.AudienceResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get audience
+      tags:
+      - Audience
+    put:
+      consumes:
+      - application/json
+      description: Updates an audience
+      parameters:
+      - description: audienceId
+        in: path
+        name: audienceId
+        type: string
+      - description: audienceId
+        in: body
+        name: command
+        schema:
+          $ref: '#/definitions/response.AudienceCommand'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update audience
+      tags:
+      - Audience
+  /audience/{audienceId}/favorite:
+    delete:
+      consumes:
+      - application/json
+      description: Unfavorites an audience
+      parameters:
+      - description: audienceId
+        in: path
+        name: audienceId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Unfavorite audience
+      tags:
+      - Audience
+    post:
+      consumes:
+      - application/json
+      description: Favorites an audience
+      parameters:
+      - description: audienceId
+        in: path
+        name: audienceId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Favorite audience
+      tags:
+      - Audience
+  /audience/favorite:
+    get:
+      consumes:
+      - application/json
+      description: Get user's favorite audiences
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.AudiencePageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get favorite audiences
+      tags:
+      - Audience
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate
+      parameters:
+      - description: Command
+        in: body
+        name: command
+        schema:
+          $ref: '#/definitions/command.AuthCommand'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.AuthResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Authenticate
+      tags:
+      - User
+  /auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate
+      parameters:
+      - description: Command
+        in: body
+        name: command
+        schema:
+          $ref: '#/definitions/command.RefreshCommand'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.AuthResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Authenticate
+      tags:
+      - User
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Creates a user
+      parameters:
+      - description: Command
+        in: body
+        name: command
+        schema:
+          $ref: '#/definitions/command.RegisterCommand'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.AuthResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Create User
+      tags:
+      - User
+  /chart:
+    get:
+      consumes:
+      - application/json
+      description: Returns all the application charts
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.ChartPageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get charts
+      tags:
+      - Chart
+    post:
+      consumes:
+      - application/json
+      description: Creates an chart
+      parameters:
+      - description: chartId
+        in: body
+        name: command
+        schema:
+          $ref: '#/definitions/response.ChartCommand'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create chart
+      tags:
+      - Chart
+  /chart/{chartId}:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes an chart
+      parameters:
+      - description: chartId
+        in: path
+        name: chartId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete chart
+      tags:
+      - Chart
+    get:
+      consumes:
+      - application/json
+      description: Returns chart by id
+      parameters:
+      - description: chartId
+        in: path
+        name: chartId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.ChartResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get chart
+      tags:
+      - Chart
+    put:
+      consumes:
+      - application/json
+      description: Updates an chart
+      parameters:
+      - description: chartId
+        in: path
+        name: chartId
+        type: string
+      - description: chartId
+        in: body
+        name: command
+        schema:
+          $ref: '#/definitions/response.ChartCommand'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update chart
+      tags:
+      - Chart
+  /chart/{chartId}/favorite:
+    delete:
+      consumes:
+      - application/json
+      description: Unfavorites an chart
+      parameters:
+      - description: chartId
+        in: path
+        name: chartId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Unfavorite chart
+      tags:
+      - Chart
+    post:
+      consumes:
+      - application/json
+      description: Favorites an chart
+      parameters:
+      - description: chartId
+        in: path
+        name: chartId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Favorite chart
+      tags:
+      - Chart
+  /chart/favorite:
+    get:
+      consumes:
+      - application/json
+      description: Get user's favorite charts
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.ChartPageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get favorite charts
+      tags:
+      - Chart
+  /insight:
+    get:
+      consumes:
+      - application/json
+      description: Returns all the application insights
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.InsightPageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get insights
+      tags:
+      - Insight
+    post:
+      consumes:
+      - application/json
+      description: Creates an insight
+      parameters:
+      - description: insightId
+        in: body
+        name: command
+        schema:
+          $ref: '#/definitions/response.InsightCommand'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create insight
+      tags:
+      - Insight
+  /insight/{insightId}:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes an insight
+      parameters:
+      - description: insightId
+        in: path
+        name: insightId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete insight
+      tags:
+      - Insight
+    get:
+      consumes:
+      - application/json
+      description: Returns insight by id
+      parameters:
+      - description: insightId
+        in: path
+        name: insightId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.InsightResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get insight
+      tags:
+      - Insight
+    put:
+      consumes:
+      - application/json
+      description: Updates an insight
+      parameters:
+      - description: insightId
+        in: path
+        name: insightId
+        type: string
+      - description: insightId
+        in: body
+        name: command
+        schema:
+          $ref: '#/definitions/response.InsightCommand'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update insight
+      tags:
+      - Insight
+  /insight/{insightId}/favorite:
+    delete:
+      consumes:
+      - application/json
+      description: Unfavorites an insight
+      parameters:
+      - description: insightId
+        in: path
+        name: insightId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Unfavorite insight
+      tags:
+      - Insight
+    post:
+      consumes:
+      - application/json
+      description: Favorites an insight
+      parameters:
+      - description: insightId
+        in: path
+        name: insightId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Favorite insight
+      tags:
+      - Insight
+  /insight/favorite:
+    get:
+      consumes:
+      - application/json
+      description: Get user's favorite insights
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.InsightPageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "401":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get favorite insights
+      tags:
+      - Insight
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
